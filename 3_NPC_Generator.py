@@ -6,13 +6,19 @@ import json
 classification_roll = 0
 ancestry_roll = 0
 class_roll = 0
+gender_roll = 0
+level = 0
+disposition_roll = 0
+
+name = "Generated Name" # Temporary placeholder
 ancestryoptions = ["Choose Classification First."]
 ancestry = None
 dndclass = None
 classification = None
-name = "Generated Name" # Temporary placeholder
+gender = None
+disposition = None
+
 disallow_generation = False
-level = 0
 
 def random_roll(min_value, max_value, modifier=0):
     return random.randint(min_value, max_value)+modifier
@@ -26,16 +32,20 @@ for key, val in {
     "ancestry": ancestry,
     "dndclass": dndclass,
     "level": level,
+    "gender": gender,
+    "disposition": disposition,
     "classification_roll": classification_roll,
     "ancestry_roll": ancestry_roll,
     "class_roll": class_roll,
+    "gender_roll": gender_roll,
+    "disposition_roll": disposition_roll
 }.items():
     if key not in st.session_state:
         st.session_state[key] = val
 
 def generate_npc():
     # use globals (values set earlier in the run from widgets are available)
-    global classification, ancestry, dndclass, name, level, classification_roll, ancestry_roll, class_roll
+    global classification, ancestry, dndclass, name, level, classification_roll, ancestry_roll, class_roll, gender, gender_roll, disposition, disposition_roll
 
     # Generate Classification
     if classification is None:
@@ -401,15 +411,45 @@ def generate_npc():
             level += 1
             coinflip = random_roll(1, 2)
 
+    # Generate Gender
+    if gender is None:
+        gender_roll = random_roll(1, 10)
+        if gender_roll <= 3:
+            gender = "Male"
+        elif gender_roll <= 6:
+            gender = "Female"
+        elif gender_roll == 7:
+            gender = "Non-Binary"
+        elif gender_roll == 8:
+            gender = "Effeminate Male"
+        elif gender_roll == 9:
+            gender = "Masculine Female"
+        else:
+            gender = "Gender Nonconforming"
+
+    # Generate Disposition
+    if disposition is None:
+        disposition_roll = random_roll(1,6)
+        if disposition_roll == 1:
+            disposition = "Hostile"
+        elif disposition_roll <= 3:
+            disposition = "Friendly"
+        else:
+            disposition = "Indifferent"
+
     # Persist generated values into session_state for rendering after rerun
     st.session_state.name = name
     st.session_state.classification = classification
     st.session_state.ancestry = ancestry
     st.session_state.dndclass = dndclass
     st.session_state.level = level
+    st.session_state.gender = gender
+    st.session_state.disposition = disposition
     st.session_state.classification_roll = classification_roll
     st.session_state.ancestry_roll = ancestry_roll
     st.session_state.class_roll = class_roll
+    st.session_state.gender_roll = gender_roll
+    st.session_state.disposition_roll = disposition_roll
     st.session_state.generated = True
 
 ## Title Section
@@ -561,8 +601,9 @@ if direct_edit:
         disallow_generation = True
     ancestry = Options_Row2.selectbox("Ancestry", options=ancestryoptions, index=None)
     dndclass = Options_Row2.selectbox("Class", options=["Commoner", "Alchemist", "Artificer", "Blacksmith", "Brewer", "Carpenter", "Cobbler", "Cook", "Enchanter", "Engineer", "Jeweler", "Leatherworker", "Mason", "Painter", "Poisoner", "Scroll Scriber", "Tailor", "Tinkerer", "Wand Whittler", "Weaver", "Wood Carver", "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"], index=None)
+    gender = Options_Row2.selectbox("Gender", options=["Male", "Female", "Non-Binary", "Effeminate Male", "Masculine Female", "Gender Nonconforming"], index=None)
+    disposition = Options_Row2.selectbox("Gender", options=["Hostile", "Friendly", "Indifferent"], index=None)
 
-# Button now uses the callback; it no longer needs an inline if-block
 st.button("Generate NPC", type="primary", use_container_width=True, disabled=disallow_generation, on_click=generate_npc)
 
 # Render the generated UI only when generation has happened (persisted in session_state)
@@ -570,21 +611,21 @@ if st.session_state.generated:
     # Output NPC Details (use session_state values)
     st.markdown("---", unsafe_allow_html=True)
     st.markdown("<h4 style='text-align: center;'>Generated NPC</h4>", unsafe_allow_html=True)
-    NPC_Details_Row1 = row([0.05,0.1,0.85], vertical_align="center", gap="small")
+
+    NPC_Details_Row1 = row([0.05,0.1,0.85], vertical_align="center", gap="small") # Name
     NPC_Details_Row1.markdown(f"<h6 style='text-align: left;'>Roll: [Placeholder]</h6>", unsafe_allow_html=True)
     NPC_Details_Row1.markdown("<h3 style='text-align: left;'>Name: </h3>", unsafe_allow_html=True)
     NPC_Details_Row1.markdown(f"<h3 style='text-align: left;'>{st.session_state.name}</h3>", unsafe_allow_html=True)
 
-    NPC_Details_Row2 = row([0.05,0.1,0.85], vertical_align="center", gap="small")
+    NPC_Details_Row2 = row([0.05,0.1,0.85], vertical_align="center", gap="small") # Classification
     if st.session_state.classification_roll != 0:
         NPC_Details_Row2.markdown(f"<h6 style='text-align: left;'>Roll: {st.session_state.classification_roll}</h6>", unsafe_allow_html=True)
     else:
         NPC_Details_Row2.markdown(f"<h6 style='text-align: left;'></h6>", unsafe_allow_html=True)
-
     NPC_Details_Row2.markdown(f"<h3 style='text-align: left;'>Classification: </h3>", unsafe_allow_html=True)
     NPC_Details_Row2.markdown(f"<h3 style='text-align: left;'>{st.session_state.classification}</h3>", unsafe_allow_html=True)
 
-    NPC_Details_Row3 = row([0.05,0.1,0.85], vertical_align="center", gap="small")
+    NPC_Details_Row3 = row([0.05,0.1,0.85], vertical_align="center", gap="small") # Ancestry
     if st.session_state.ancestry_roll != 0:
         NPC_Details_Row3.markdown(f"<h6 style='text-align: left;'>Roll: {st.session_state.ancestry_roll}</h6>", unsafe_allow_html=True)
     else:
@@ -592,31 +633,48 @@ if st.session_state.generated:
     NPC_Details_Row3.markdown(f"<h3 style='text-align: left;'>Ancestry: </h3>", unsafe_allow_html=True)
     NPC_Details_Row3.markdown(f"<h3 style='text-align: left;'>{st.session_state.ancestry}</h3>", unsafe_allow_html=True)
 
-    NPC_Details_Row4 = row([0.05,0.1,0.85], vertical_align="center", gap="small")
+    NPC_Details_Row4 = row([0.05,0.1,0.85], vertical_align="center", gap="small") # Class
     if st.session_state.class_roll != 0:
         NPC_Details_Row4.markdown(f"<h6 style='text-align: left;'>Roll: {st.session_state.class_roll}</h6>", unsafe_allow_html=True)
     else:
-        NPC_Details_Row4.markdown(f"<h6 style='text-align: left;'></h6>", unsafe_allow_html=True)
+        NPC_Details_Row4.markdown(f"<h6 style='text-align: left;'>Roll: N/A</h6>", unsafe_allow_html=True)
     NPC_Details_Row4.markdown(f"<h3 style='text-align: left;'>Class: </h3>", unsafe_allow_html=True)
     NPC_Details_Row4.markdown(f"<h3 style='text-align: left;'>{st.session_state.dndclass}</h3>", unsafe_allow_html=True)
 
     if st.session_state.level > 0:
-        NPC_Details_Row5 = row([0.05,0.1,0.85], vertical_align="center", gap="small")
+        NPC_Details_Row5 = row([0.05,0.1,0.85], vertical_align="center", gap="small") # Level
+        NPC_Details_Row5.markdown(f"<h6 style='text-align: left;'>Roll: 1/{(st.session_state.level)**2}</h6>", unsafe_allow_html=True)
         NPC_Details_Row5.markdown(f"<h3 style='text-align: left;'>Level: </h3>", unsafe_allow_html=True)
         NPC_Details_Row5.markdown(f"<h3 style='text-align: left;'>{st.session_state.level}</h3>", unsafe_allow_html=True)
+    
+    NPC_Details_Row6 = row([0.05,0.1,0.85], vertical_align="center", gap="small") # Gender
+    if st.session_state.gender_roll != 0:
+        NPC_Details_Row6.markdown(f"<h6 style='text-align: left;'>Roll: {st.session_state.gender_roll}</h6>", unsafe_allow_html=True)
+    else:
+        NPC_Details_Row6.markdown(f"<h6 style='text-align: left;'>Roll: N/A</h6>", unsafe_allow_html=True)
+    NPC_Details_Row6.markdown(f"<h3 style='text-align: left;'>Gender: </h3>", unsafe_allow_html=True)
+    NPC_Details_Row6.markdown(f"<h3 style='text-align: left;'>{st.session_state.gender}</h3>", unsafe_allow_html=True)
 
-    if st.session_state.level > 5:
+    NPC_Details_Row7 = row([0.05,0.1,0.85], vertical_align="center", gap="small") # Disposition
+    NPC_Details_Row7.markdown(f"<h6 style='text-align: left;'>Roll: {st.session_state.disposition_roll}</h6>", unsafe_allow_html=True)
+    NPC_Details_Row7.markdown(f"<h3 style='text-align: left;'>Disposition: </h3>", unsafe_allow_html=True)
+    NPC_Details_Row7.markdown(f"<h3 style='text-align: left;'>{st.session_state.disposition}</h3>", unsafe_allow_html=True)
+
+
+#############################################################
+
+    if st.session_state.level > 5: # Hall of Fame
         st.markdown("<h6 style='text-align: center; color: #e3256b;'>High-Level NPC Generated!</h6>", unsafe_allow_html=True)
         st.markdown("<h6 style='text-align: center; color: #e3256b;'>Consider adding them to the Hall of Fame below.</h6>", unsafe_allow_html=True)
         if st.button("Add to Hall of Fame", type="secondary", use_container_width=True):
             with open("NPC_Hall_of_Fame.txt", "a") as hof:
-                hof.write(f"Name: {st.session_state.name}, Classification: {st.session_state.classification}, Ancestry: {st.session_state.ancestry}, Class: {st.session_state.dndclass}, Level: {st.session_state.level}\n") 
+                hof.write(f"Name: {st.session_state.ancestry} {st.session_state.dndclass} ({st.session_state.level}), Classification: {st.session_state.classification}, Ancestry: {st.session_state.ancestry}, Class: {st.session_state.dndclass}, Level: {st.session_state.level}, Gender: {st.session_state.gender}, Disposition: {st.session_state.disposition}\n") 
             st.markdown("<h6 style='text-align: center; color: green;'>NPC Added to Hall of Fame!</h6>", unsafe_allow_html=True)
 
     # Codeblock Output for easy copying
     st.markdown("---", unsafe_allow_html=True)
     st.markdown("<h5 style='text-align: center;'>Copyable</h5>", unsafe_allow_html=True)
-    st.code(f"Name: {st.session_state.name}\nClassification: {st.session_state.classification}\nAncestry: {st.session_state.ancestry}\nClass: {st.session_state.dndclass}\nLevel: {st.session_state.level}", height=150)
+    st.code(f"Name: {st.session_state.ancestry} {st.session_state.dndclass} ({st.session_state.level})\nClassification: {st.session_state.classification}\nAncestry: {st.session_state.ancestry}\nClass: {st.session_state.dndclass}\nLevel: {st.session_state.level}\nGender: {st.session_state.gender}\nDisposition: {st.session_state.disposition}", height=150)
 
 st.markdown("---", unsafe_allow_html=True)
 st.markdown("<h4 style='text-align: center;'>Hall of Fame</h4>", unsafe_allow_html=True)

@@ -1,7 +1,1 @@
-Name: Generated Name, Classification: Naturalborn, Ancestry: Halfling (Lightfoot), Class: Monk, Level: 4
-Name: Generated Name, Classification: Oddity, Ancestry: Halfling (Jinx), Class: Warlock, Level: 5
-Name: Generated Name, Classification: Naturalborn, Ancestry: Halfling (Stout), Class: Fighter, Level: 3
-Name: Generated Name, Classification: Naturalborn, Ancestry: Half-Orc, Class: Fighter, Level: 4
-Name: Generated Name, Classification: Naturalborn, Ancestry: Half-Orc, Class: Warlock, Level: 3
-Name: Generated Name, Classification: Naturalborn, Ancestry: Half-Elf, Class: Warlock, Level: 3
-Name: Alex, Classification: Outlander, Ancestry: Firbolg, Class: Artificer, Level: 6
+Name: Lupin (Pack) Sorcerer (6), Classification: Oddity, Ancestry: Lupin (Pack), Class: Sorcerer, Level: 6, Gender: Female, Disposition: Friendly
