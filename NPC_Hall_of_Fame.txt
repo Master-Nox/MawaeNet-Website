@@ -1,4 +1,4 @@
-Name: Lupin (Pack) Sorcerer (6), Classification: Oddity, Ancestry: Lupin (Pack), Class: Sorcerer, Level: 6, Gender: Female, Disposition: Friendly
-Name: Rakin (Urkin) Wizard (6), Classification: Oddity, Ancestry: Rakin (Urkin), Class: Wizard, Level: 6, Gender: Non-Binary, Disposition: Friendly
-Name: Dragonborn (Faerie) Fighter (6), Classification: Outlander, Ancestry: Dragonborn (Faerie), Class: Fighter, Level: 6, Gender: Masculine Female, Disposition: Friendly
-Name: Dragonborn (Faerie) Fighter (6), Classification: Outlander, Ancestry: Dragonborn (Faerie), Class: Fighter, Level: 6, Gender: Masculine Female, Disposition: Friendly
+Name: Opteran (Naturalborn) Artificer (7), Classification: Outlander, Ancestry: Opteran (Naturalborn), Class: Artificer, Level: 7, Gender: Masculine Female, Disposition: Hostile
+Name: Opteran (Naturalborn) Cleric (5), Classification: Outlander, Ancestry: Opteran (Naturalborn), Class: Cleric, Level: 5, Gender: Masculine Female, Disposition: Hostile
+Name: Dragonborn (Gem) Rogue (7), Classification: Oddity, Ancestry: Dragonborn (Gem), Class: Rogue, Level: 7, Gender: Gender Nonconforming, Disposition: Indifferent
+Name: Ratfolk (Scourgerat) Sorcerer (9), Classification: Oddity, Ancestry: Ratfolk (Scourgerat), Class: Sorcerer, Level: 9, Gender: Masculine Female, Disposition: Hostile
