@@ -5,15 +5,7 @@ from profanityfilter import ProfanityFilter
 
 pf = ProfanityFilter()
 
-classification_roll = 0
-ancestry_roll = 0
-class_roll = 0
-gender_roll = 0
 level = 0
-disposition_roll = 0
-alignment_roll = 0
-goaltivation_roll = 0
-
 name = ""
 ancestryoptions = ["Choose Classification First."]
 ancestry = None
@@ -23,6 +15,7 @@ gender = None
 disposition = None
 alignment = None
 goaltivation = None
+unique_look = None
 
 disallow_generation = False
 No_HOF = True
@@ -43,6 +36,7 @@ for key, val in {
     "disposition": disposition,
     "alignment": alignment,
     "goaltivation": goaltivation,
+    "unique_look": unique_look,
     "No_HOF": No_HOF
 }.items():
     if key not in st.session_state:
@@ -50,7 +44,7 @@ for key, val in {
 
 def generate_npc():
     # use globals (values set earlier in the run from widgets are available)
-    global classification, ancestry, dndclass, name, level, gender, disposition, alignment, goaltivation, No_HOF
+    global classification, ancestry, dndclass, name, level, gender, disposition, alignment, goaltivation, unique_look, No_HOF
 
     # Generate Classification
     if classification is None:
@@ -466,7 +460,7 @@ def generate_npc():
             case 9:
                 alignment = "Chaotic Evil"
 
-    # TO-DO: Generate Goaltivation
+    # Generate Goaltivation
     if goaltivation is None:
         goaltivation_roll = random_roll(1,200)
         match goaltivation_roll:
@@ -871,6 +865,51 @@ def generate_npc():
             case 200:
                 goaltivation = "To find a lost relic of their temple."
 
+    # Generate Unique Look
+    if st.session_state.unique_look_checkbox and unique_look is None:
+        unique_look_roll = random_roll(1,20)
+        match unique_look_roll:
+            case 1:
+                unique_look = "Bad Posture"
+            case 2:
+                unique_look = "Bald"
+            case 3:
+                unique_look = "Beautiful"
+            case 4:
+                unique_look = "Big nose/ears"
+            case 5: 
+                unique_look = "Cross-eyed"
+            case 6:
+                unique_look = "Pale"
+            case 7:
+                unique_look = "Short"
+            case 8:
+                unique_look = "Tall"
+            case 9:
+                unique_look = "Unique Armor"
+            case 10: 
+                unique_look = "Unique Clothing"
+            case 11:
+                unique_look = "Unique Jewelry"
+            case 12:
+                unique_look = "Unique Emblem/Symbol"
+            case 13:
+                unique_look = "Unusual Eye Color"
+            case 14:
+                unique_look = "Unusual Hair Color"
+            case 15:
+                unique_look = "Unusual Hair/Beard Style"
+            case 16:
+                unique_look = "Scar/Tattoo"
+            case 17:
+                unique_look = "Multiple Scars/Tattoos"
+            case 18:
+                unique_look = "Rare Item/Weapon"
+            case 19:
+                unique_look = "Paralyzed Part"
+            case 20:
+                unique_look = "Machanical Part"
+
     # Persist generated values into session_state for rendering after rerun
     st.session_state.name = name
     st.session_state.classification = classification
@@ -881,12 +920,7 @@ def generate_npc():
     st.session_state.disposition = disposition
     st.session_state.alignment = alignment
     st.session_state.goaltivation = goaltivation
-    # st.session_state.classification_roll = classification_roll
-    # st.session_state.ancestry_roll = ancestry_roll
-    # st.session_state.class_roll = class_roll
-    # st.session_state.gender_roll = gender_roll
-    # st.session_state.disposition_roll = disposition_roll
-    # st.session_state.alignment_roll = alignment_roll
+    st.session_state.unique_look = unique_look
     st.session_state.No_HOF = No_HOF
     st.session_state.generated = True
 
@@ -904,6 +938,8 @@ Gen_Options_1 = row(5, vertical_align="center", gap="small")
 direct_edit = Gen_Options_1.checkbox("Directly Edit NPC?", value=False)
 Gen_Options_1.checkbox("Accurate Classification Distribution?", value=True, key="accurate_distributions")
 Gen_Options_1.checkbox("Player Classes Only?", value=True, key="player_classes_only")
+Gen_Options_1.checkbox("Unique Look?", value=False, key="unique_look_checkbox")
+Gen_Options_1.checkbox("Unique Physical Trait?", value=False, key='unique_physical')
 
 if direct_edit: # Direct Editor
     st.markdown("---")
@@ -1256,6 +1292,7 @@ if direct_edit: # Direct Editor
     "To find a lost relic of their temple."
     ]
     goaltivation = Edit_Options_2.selectbox("Goaltivation", options=goaltivation_options, index=None)
+    unique_look = Edit_Options_2.selectbox("Unique Look", options=["Bad Posture", "Bald", "Beautiful", "Big nose/ears", "Cross-eyed", "Pale", "Short", "Tall", "Unique Armor", "Unique Clothing", "Unique Jewelry", "Unique Emblem/Symbol", "Unusual Eye Color", "Unusual Hair Color", "Unusual Hair/Beard Style", "Scar/Tattoo", "Multiple Scars/Tattoos", "Rare Item/Weapon", "Paralyzed Part", "Machanical Part"], index=None)
 
 st.button("Generate NPC", type="primary", use_container_width=True, disabled=disallow_generation, on_click=generate_npc)
 
@@ -1269,22 +1306,31 @@ if st.session_state.generated:
 
     if pf.is_clean(name) and name != "":
         NPC_Output = f"Name: {st.session_state.name}\nClassification: {st.session_state.classification}\nAncestry: {st.session_state.ancestry}\nClass: {st.session_state.dndclass}\nLevel: {st.session_state.level}\nGender: {st.session_state.gender}\nDisposition: {st.session_state.disposition}\nAlignment: {st.session_state.alignment}\nGoaltivation: {st.session_state.goaltivation}"
+        
+        if st.session_state.unique_look:
+            NPC_Output += f"\nUnique Look: {st.session_state.unique_look}"
+
         No_HOF = False
-        st.code(NPC_Output, height="content")
+
     else:
         NPC_Output = f"Name: {st.session_state.ancestry} {st.session_state.dndclass} ({st.session_state.level})\nClassification: {st.session_state.classification}\nAncestry: {st.session_state.ancestry}\nClass: {st.session_state.dndclass}\nLevel: {st.session_state.level}\nGender: {st.session_state.gender}\nDisposition: {st.session_state.disposition}\nAlignment: {st.session_state.alignment}\nGoaltivation: {st.session_state.goaltivation}"
-        st.code(NPC_Output, height="content")
+        
+        if st.session_state.unique_look:
+            NPC_Output += f"\nUnique Look: {st.session_state.unique_look}"
+        
         if pf.is_profane(name):
             No_HOF = True
 
+    st.code(NPC_Output, height="content")
+
     # Hall of Fame
 
-    if st.session_state.level >= 1 and st.session_state.No_HOF != True: 
+    if st.session_state.level >= 5 and st.session_state.No_HOF != True: 
         st.markdown("<h6 style='text-align: center; color: #e3256b;'>High-Level NPC Generated!</h6>", unsafe_allow_html=True)
         st.markdown("<h6 style='text-align: center; color: #e3256b;'>Consider adding them to the Hall of Fame below.</h6>", unsafe_allow_html=True)
         if st.button("Add to Hall of Fame", type="secondary", use_container_width=True, disabled=st.session_state.No_HOF):
             with open("NPC_Hall_of_Fame.txt", "a") as hof: # Maybe write as json instead, just for clarity in the future.
-                hof.write(f"Name: {st.session_state.ancestry} {st.session_state.dndclass} ({st.session_state.level}), Classification: {st.session_state.classification}, Ancestry: {st.session_state.ancestry}, Class: {st.session_state.dndclass}, Level: {st.session_state.level}, Gender: {st.session_state.gender}, Disposition: {st.session_state.disposition}, Alignment: {st.session_state.alignment}, Goaltivation: {st.session_state.goaltivation}\n") 
+                hof.write(f"Name: {st.session_state.ancestry} {st.session_state.dndclass} ({st.session_state.level}), Classification: {st.session_state.classification}, Ancestry: {st.session_state.ancestry}, Class: {st.session_state.dndclass}, Level: {st.session_state.level}, Gender: {st.session_state.gender}, Disposition: {st.session_state.disposition}, Alignment: {st.session_state.alignment}, Goaltivation: {st.session_state.goaltivation}, Unique Look: {st.session_state.unique_look}\n") 
             st.session_state.No_HOF = True
             st.rerun() # Makes the HOF button immediately disappear after being clicked.
 
