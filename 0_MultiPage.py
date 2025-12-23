@@ -48,5 +48,5 @@ with bottom():
     bottomrow.markdown("")
     bottomrow.link_button("Login", type="secondary", use_container_width=True, url="https://home.mawae.net", help="Login to the private MawaeNet.")
 
-pg = st.navigation(pages=[st.Page("1_MawaeNet.py"), st.Page("2_Alyrian_Cipher.py"), st.Page("3_NPC_Generator.py")], position="sidebar", expanded=False)
+pg = st.navigation(pages=[st.Page("1_MawaeNet.py"), st.Page("2_Alyrian_Cipher.py"), st.Page("3_NPC_Generator.py"), st.Page("100_Home.py")], position="sidebar", expanded=False)
 pg.run()

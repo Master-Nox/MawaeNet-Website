@@ -9,5 +9,7 @@ if ButtonsRow1.button("Alyrian Cipher", type="secondary", use_container_width=Tr
     st.switch_page("2_Alyrian_Cipher.py")
 if ButtonsRow1.button("NPC Generator", type="secondary", use_container_width=True, help="Work in progress.", key="wip1"):
     st.switch_page("3_NPC_Generator.py")
-ButtonsRow1.button("WIP", type="secondary", use_container_width=True, help="Work in progress.", key="wip2")
+#ButtonsRow1.button("WIP", type="secondary", use_container_width=True, help="Work in progress.", key="wip2")
     # st.switch_page("2_Alyrian_Cipher.py")
+if ButtonsRow1.button("Home", type="secondary", use_container_width=True, help="Go to the Home page.", key="home"):
+    st.switch_page("100_Home.py")
