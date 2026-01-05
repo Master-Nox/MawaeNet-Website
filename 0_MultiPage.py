@@ -46,7 +46,15 @@ with bottom():
     bottomrow.markdown("")
     bottomrow.markdown("")
     bottomrow.markdown("")
-    bottomrow.link_button("Login", type="secondary", use_container_width=True, url="https://home.mawae.net", help="Login to the private MawaeNet.")
+    #bottomrow.link_button("Private Dashboard", type="secondary", use_container_width=True, url="https://home.mawae.net", help="Login to the private MawaeNet.") # When moved over to its own url, this will be substituted in.
+    if bottomrow.button("Private Dashboard", type="secondary", use_container_width=True, help="Login to the private MawaeNet."): # This is used while in development.
+        st.switch_page("100_Home.py")
+    bottomrow.markdown("")
+    bottomrow.markdown("")
+    bottomrow.markdown("")
+    bottomrow.markdown("")
+    bottomrow.markdown("")
+    bottomrow.link_button("Forgot Password?", type="tertiary", use_container_width=True, url="https://account.mawae.net/reset-password/step1", help="Reset your password.")
 
 pg = st.navigation(pages=[st.Page("1_MawaeNet.py"), st.Page("2_Alyrian_Cipher.py"), st.Page("3_NPC_Generator.py"), st.Page("4_Level_Distribution.py"), st.Page("100_Home.py")], position="sidebar", expanded=False)
 pg.run()
