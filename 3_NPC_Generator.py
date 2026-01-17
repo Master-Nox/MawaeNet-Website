@@ -1329,7 +1329,7 @@ if st.session_state.generated:
         st.markdown("<h6 style='text-align: center; color: #e3256b;'>High-Level NPC Generated!</h6>", unsafe_allow_html=True)
         st.markdown("<h6 style='text-align: center; color: #e3256b;'>Consider adding them to the Hall of Fame below.</h6>", unsafe_allow_html=True)
         if st.button("Add to Hall of Fame", type="secondary", use_container_width=True, disabled=st.session_state.No_HOF):
-            with open("NPC_Hall_of_Fame.txt", "a") as hof: # Maybe write as json instead, just for clarity in the future.
+            with open(r"./persistent/NPC_Hall_of_Fame.txt", "a") as hof: # Maybe write as json instead, just for clarity in the future.
                 hof.write(f"Name: {st.session_state.ancestry} {st.session_state.dndclass} ({st.session_state.level}), Classification: {st.session_state.classification}, Ancestry: {st.session_state.ancestry}, Class: {st.session_state.dndclass}, Level: {st.session_state.level}, Gender: {st.session_state.gender}, Disposition: {st.session_state.disposition}, Alignment: {st.session_state.alignment}, Goaltivation: {st.session_state.goaltivation}, Unique Look: {st.session_state.unique_look}\n") 
             st.session_state.No_HOF = True
             st.rerun() # Makes the HOF button immediately disappear after being clicked.
@@ -1339,7 +1339,7 @@ st.markdown("<h4 style='text-align: center;'>Hall of Fame</h4>", unsafe_allow_ht
 
 # Show Hall of Fame contents as cards that you can cycle through
 try:
-    with open("NPC_Hall_of_Fame.txt", "r") as hof:
+    with open(r"./persistent/NPC_Hall_of_Fame.txt", "r") as hof:
         hof_lines = hof.readlines()
         for line in hof_lines:
             hof_names = [l.split(",")[0].replace("Name: ","").strip() for l in hof_lines]

@@ -4,3 +4,4 @@ Name: Dragonborn (Gem) Rogue (7), Classification: Oddity, Ancestry: Dragonborn (
 Name: Ratfolk (Scourgerat) Sorcerer (9), Classification: Oddity, Ancestry: Ratfolk (Scourgerat), Class: Sorcerer, Level: 9, Gender: Masculine Female, Disposition: Hostile
 Name: Changeling Rogue (5), Classification: Outlander, Ancestry: Changeling, Class: Rogue, Level: 5, Gender: Gender Nonconforming, Disposition: Indifferent
 Name: Tiefling (Amethyst Bloodline) Paladin (9), Classification: Oddity, Ancestry: Tiefling (Amethyst Bloodline), Class: Paladin, Level: 9, Gender: Effeminate Male, Disposition: Friendly, Alignment: Lawful Evil, Goaltivation: The NPC wants to solve an ongoing mystery.
+Name: Tortle Warlock (5), Classification: Naturalborn, Ancestry: Tortle, Class: Warlock, Level: 5, Gender: Female, Disposition: Indifferent, Alignment: Neutral Good, Goaltivation: The NPC wants to teach their skills or methods to others., Unique Look: None
