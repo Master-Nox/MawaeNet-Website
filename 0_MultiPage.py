@@ -47,8 +47,6 @@ with bottom():
     bottomrow.markdown("")
     bottomrow.markdown("")
     bottomrow.link_button("Private Dashboard", type="secondary", use_container_width=True, url="https://home.mawae.net", help="Login to the private MawaeNet.") # When moved over to its own url, this will be substituted in.
-    #if bottomrow.button("Private Dashboard", type="secondary", use_container_width=True, help="Login to the private MawaeNet."): # This is used while in development.
-    #    st.switch_page("100_Home.py")
     bottomrow.markdown("")
     bottomrow.markdown("")
     bottomrow.markdown("")
