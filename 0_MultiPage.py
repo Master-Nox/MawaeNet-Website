@@ -35,8 +35,7 @@ toprow.markdown("")
 toprow.markdown("")
 toprow.markdown("")
 toprow.markdown("")
-if toprow.button("Home", help="Go to the Home page.", type="primary", use_container_width=True):
-    st.switch_page("1_MawaeNet.py")
+toprow.link_button("Home", type="primary", use_container_width=True, url="https://mawae.net", help="Go to the Home page.")
 
 with bottom():
     st.markdown("---")
