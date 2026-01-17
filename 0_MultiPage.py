@@ -56,5 +56,5 @@ with bottom():
     bottomrow.markdown("")
     bottomrow.link_button("Forgot Password?", type="tertiary", use_container_width=True, url="https://account.mawae.net/reset-password/step1", help="Reset your password.")
 
-pg = st.navigation(pages=[st.Page("1_MawaeNet.py"), st.Page("2_Alyrian_Cipher.py"), st.Page("3_NPC_Generator.py"), st.Page("4_Level_Distribution.py"), st.Page("100_Home.py")], position="sidebar", expanded=False)
+pg = st.navigation(pages=[st.Page("1_MawaeNet.py"), st.Page("2_Alyrian_Cipher.py"), st.Page("3_NPC_Generator.py"), st.Page("4_Level_Distribution.py")], position="sidebar", expanded=False)
 pg.run()
